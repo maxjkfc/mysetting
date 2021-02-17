@@ -14,3 +14,7 @@ if filereadable(expand('~/.config/nvim/coc.vim'))
   source ~/.config/nvim/coc.vim
 endif
 
+if filereadable(expand('~/.config/nvim/vim-go.vim'))
+  source ~/.config/nvim/vim-go.vim
+endif
+

@@ -5,8 +5,13 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
     \ 'coc-git', 
     \ 'coc-explorer',
     \ 'coc-go',
-    \ 'coc-fzf-preview'
+    \ 'coc-fzf-preview',
+    \ 'coc-diagnostic', 
+    \ 'coc-snippets',
+    \ 'coc-yaml',
     \ ]
+
+  " 設定更新時間
   set updatetime=300
   set shortmess+=c
   set signcolumn=yes
@@ -34,80 +39,91 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
 
 
 
-
   " coc-snippets
-  " Use <C-l> for trigger snippet expand.
+  " 在輸入模式 使用 <C-l> 觸發擴展
   imap <C-l> <Plug>(coc-snippets-expand)
-  " Use <C-j> for select text for visual placeholder of snippet.
+  " 使用 <C-j> 來選擇要輸入的參數
   vmap <C-j> <Plug>(coc-snippets-select)
+  " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+  let g:coc_snippet_next = '<c-j>'
+  " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+  let g:coc_snippet_prev = '<c-k>'
+
   " Use <C-j> for both expand and jump (make expand higher priority.)
   imap <C-j> <Plug>(coc-snippets-expand-jump)
 
-  "Use tab for trigger completion with characters ahead and navigate.
+  " 使用 <tab> 觸發 輸入參數
   inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
+        \ pumvisible() ? coc#_select_confirm() :
+        \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
         \ <SID>check_back_space() ? "\<TAB>" :
         \ coc#refresh()
-
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
   function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
 
-  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-  " Coc only does snippet and additional edit on confirm.
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-  " Use `[d` and `]d` to navigate diagnostics
-  " 進入下一個診斷
-  nmap <silent> [d <Plug>(coc-diagnostic-prev)
-  " 上一個診斷
-  nmap <silent> ]d <Plug>(coc-diagnostic-next)
+  " 使用 enter 觸發提交提示列表
+  inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
   " Remap for rename current word
   nmap <leader>rn <Plug>(coc-rename)
-
-  augroup mygroup
-    autocmd!
-    " Setup formatexpr specified filetype(s).
-    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-    " Update signature help on jump placeholder
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  augroup end
 
   " Use `:Format` to format current buffer
   command! -nargs=0 Format :call CocAction('format')
   " Use `:Fold` to fold current buffer
   command! -nargs=? Fold :call CocAction('fold', <f-args>)
+  " Add `:OR` command for organize imports of the current buffer.
+  command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
+  " Add (Neo)Vim's native statusline support.
+  " NOTE: Please see `:h coc-status` for integrations with external plugins that
+  " provide custom statusline: lightline.vim, vim-airline.
+  set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
   " fzf 
-  nmap <Leader>f [fzf-p]
-  xmap <Leader>f [fzf-p]
+  " 列出有哪些錯誤
+  nnoremap <silent> <space>a     :<C-u>CocCommand fzf-preview.CocDiagnostics <CR>
+  nnoremap <silent> <space>aa    :<C-u>CocCommand fzf-preview.CocCurrentDiagnostics <CR>
+  " 找尋檔案
+  nnoremap <silent> <space>p     :<C-u>CocCommand fzf-preview.FromResources directory project project_mru git<CR>
+  nnoremap <silent> <space>f     :<C-u>CocCommand fzf-preview.ProjectFiles <CR>
+  " 查詢此 Git 狀態
+  nnoremap <silent> <space>gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+  " 調用 Git 命令列
+  nnoremap <silent> <space>ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
+  " 調用 Git Log
+  nnoremap <silent> <space>gl    :<C-u>CocCommand fzf-preview.GitLogs<CR>
+  " 取得 目前 Buffers 清單
+  nnoremap <silent> <space>b     :<C-u>CocCommand fzf-preview.Buffers<CR>
+  " 取得 目前所有 Buffers 
+  nnoremap <silent> <space>B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+  " 跳轉列表
+  nnoremap <silent> <space><C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
+  " 查看最近修改內容
+  nnoremap <silent> <space>g;    :<C-u>CocCommand fzf-preview.Changes<CR>
+  " 搜尋此檔案
+  nnoremap <silent> <space>/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+  " 搜尋此單字 在此檔案
+  nnoremap <silent> <space>*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+  " 搜尋所有檔案
+  nnoremap          <space>gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+  xnoremap          <space>gr    "sy:FzfPreviewProjectGrepRpc<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+  " 查詢 PullRequest
+  nnoremap <silent> <space>pr    :<C-u>CocCommand fzf-preview.BlamePR<CR>
+  " 查詢實做
+  nnoremap <silent> <space>i    :<C-u>CocCommand fzf-preview.CocImplementations<CR>
 
-  nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
-  nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
-  nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
-  nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
-  nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
-  nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
-  nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
-  nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
-  nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
-  nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
-  nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
-  xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-  nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
-  nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
-  nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
+  let g:fzf_preview_floating_window_rate = 0.8
+  let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --no-messages -g \!"* *"' " Installed ripgrep
+  let g:fzf_preview_directory_files_command = 'rg --files --hidden --follow --no-messages -g \!".git"'
+  let g:fzf_preview_command = 'bat --color=always --plain {-1}' " Installed bat
+
 
   "coc explorer
   let g:coc_explorer_global_presets = {
-    \   '.vim': {
-    \     'root-uri': '~/.config/nvim',
-    \   },
     \   'cocConfig': {
     \      'root-uri': '~/.config/coc',
     \   },
@@ -116,29 +132,19 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
     \     'open-action-strategy': 'sourceWindow',
     \     'floating-width': 50,
     \   },
-    \   'floatingLeftside': {
-    \     'position': 'floating',
-    \     'floating-position': 'left-center',
-    \     'floating-width': 50,
-    \     'open-action-strategy': 'sourceWindow',
-    \   },
-    \   'floatingRightside': {
-    \     'position': 'floating',
-    \     'floating-position': 'right-center',
-    \     'floating-width': 50,
-    \     'open-action-strategy': 'sourceWindow',
-    \   },
-    \   'bufferFloating': {
-    \     'sources': [{'name': 'buffer', 'expand': v:true}],
-    \     'position': 'floating',
-    \     'floating-width': 50,
-    \   },
     \ }
   " coc-explorer 
   nmap <space>e :CocCommand explorer <cr>
   " 啟動浮動視窗的 檔案管理列
   nmap <space>ef :CocCommand explorer --preset floating<CR>
-  nmap <space>eb :CocCommand explorer --preset bufferFloating<CR>
   nmap <space>ec :CocCommand explorer --preset cocConfig<CR>
+
+  augroup mygroup
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  augroup end
   
 endif
