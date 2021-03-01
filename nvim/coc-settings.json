@@ -67,6 +67,13 @@
     "completeUnimported": true,
     "usePlaceholders": true
   },
+  "go.tests": {
+    "generateFlags": [ "-v" , "-cover"]
+  },
+  "go.tags": { 
+    "transform":"camelcase" // 設定 goAddTags 使用小駝峰
+  },
+  // coc-diagnostic 
   "diagnostic-languageserver.filetypes": {
     "go": "revive",
     "markdown": "markdownlint",

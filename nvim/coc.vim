@@ -122,6 +122,10 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
   let g:fzf_preview_command = 'bat --color=always --plain {-1}' " Installed bat
 
 
+  " coc-multiple 
+  " 將當前游標位置加入選擇範圍內
+  " nmap <silent> <C-c> <Plug>(coc-cursors-position)
+
   "coc explorer
   let g:coc_explorer_global_presets = {
     \   'cocConfig': {
@@ -133,6 +137,7 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
     \     'floating-width': 50,
     \   },
     \ }
+
   " coc-explorer 
   nmap <space>e :CocCommand explorer <cr>
   " 啟動浮動視窗的 檔案管理列

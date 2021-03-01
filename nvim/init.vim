@@ -18,3 +18,14 @@ if filereadable(expand('~/.config/nvim/vim-go.vim'))
   source ~/.config/nvim/vim-go.vim
 endif
 
+if filereadable(expand('~/.config/nvim/wildfire.vim'))
+  source ~/.config/nvim/wildfire.vim
+endif
+
+if filereadable(expand('~/.config/nvim/vista.vim'))
+  source ~/.config/nvim/vista.vim
+endif
+
+if filereadable(expand('~/.config/nvim/visual-multi.vim'))
+  source ~/.config/nvim/visual-multi.vim
+endif

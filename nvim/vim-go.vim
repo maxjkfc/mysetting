@@ -17,17 +17,20 @@ if isdirectory(expand('~/.vim/bundle/vim-go'))
     let g:go_doc_keywordprg_enabled = 0
     let g:go_gopls_enabled = 0
     let g:go_gopls_options = ['-remote=auto']
-    let g:go_fmt_autosave = 1
+    let g:go_fmt_autosave = 0
 
     augroup golangcmd
-        au FileType go nmap <Leader>s <Plug>(go-implements)
-        au FileType go nmap <Leader>i <Plug>(go-info)
         au FileType go nmap <Leader>en <Plug>(go-rename)
         au FileType go nmap <leader>r <Plug>(go-run)
         au FileType go nmap <leader>b <Plug>(go-build)
         au FileType go nmap <leader>t <Plug>(go-test)
-        "au FileType go nmap <Leader>gd <Plug>(go-doc)
         au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
         au FileType go nmap <leader>co <Plug>(go-coverage)
+        " from coc-go
+        au FileType go nmap gtj :CocCommand go.tags.add json<cr> 
+        au FileType go nmap gty :CocCommand go.tags.add yaml<cr>
+        au FileType go nmap gtb :CocCommand go.tags.add bson<cr>
+        au FileType go nmap gtx :CocCommand go.tags.clear<cr>
+        au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
     augroup END
 endif
