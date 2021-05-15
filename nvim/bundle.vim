@@ -6,7 +6,7 @@ let g:plug_pwindow = 'vertical rightbelow new'
 
 " 設定 bundle 位置
 call plug#begin(s:bundle_dir)
-" Golang
+" Golang 專用套件
   Plug 'fatih/vim-go', {'do':':GoUpdateBinaries' , 'for':'go'} 
 " Theme 主題
   Plug 'dracula/vim',{'as':'dracula'}
@@ -15,6 +15,10 @@ call plug#begin(s:bundle_dir)
 " FZF 模糊搜尋插件
   Plug 'junegunn/fzf.vim' 
   Plug 'junegunn/fzf'
+
+" GIT
+  Plug 'tpope/vim-fugitive'
+
 
 " Tools (必備)
   " 快速產生括弧插件
@@ -29,5 +33,6 @@ call plug#begin(s:bundle_dir)
   Plug 'tpope/vim-fugitive'
   " 多游標選取
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+  " 快速移動
 
 call plug#end()

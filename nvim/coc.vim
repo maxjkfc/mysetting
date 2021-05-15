@@ -9,6 +9,7 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
     \ 'coc-diagnostic', 
     \ 'coc-snippets',
     \ 'coc-yaml',
+    \ 'coc-spell-checker',
     \ ]
 
   " 設定更新時間
@@ -16,15 +17,20 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
   set shortmess+=c
   set signcolumn=yes
 
+  " coc-spell-checker
+  vmap <leader>a <Plug>(coc-codeaction-selected)
+  xmap <leader>a <Plug>(coc-codeaction-selected)
 
-  " Remap keys for gotos
+  " Remap keys for go to
   " 進入下一個定義
   nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gy <Plug>(coc-type-definition)
   nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> gr <Plug>(coc-references)
+
   " Use gh to show documentation in preview window
   nnoremap <silent> gh :call <SID>show_documentation()<CR>
+
   " 展現coc 文件
   function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
@@ -36,8 +42,6 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
 
   " Highlight symbol under cursor on CursorHold
   autocmd CursorHold * silent call CocActionAsync('highlight')
-
-
 
   " coc-snippets
   " 在輸入模式 使用 <C-l> 觸發擴展
@@ -68,7 +72,7 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
   inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-  " Remap for rename current word
+  " 重新命名此單字在本檔案內該的所有相同單字 Remap for rename current word
   nmap <leader>rn <Plug>(coc-rename)
 
   " Use `:Format` to format current buffer
@@ -86,6 +90,7 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
   " fzf 
   " 列出有哪些錯誤
   nnoremap <silent> <space>a     :<C-u>CocCommand fzf-preview.CocDiagnostics <CR>
+  " 列出目前檔案有哪些錯誤
   nnoremap <silent> <space>aa    :<C-u>CocCommand fzf-preview.CocCurrentDiagnostics <CR>
   " 找尋檔案
   nnoremap <silent> <space>p     :<C-u>CocCommand fzf-preview.FromResources directory project project_mru git<CR>
