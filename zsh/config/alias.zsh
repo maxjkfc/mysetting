@@ -20,13 +20,13 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # tools path
-alias mtr=' sudo /usr/local/sbin/mtr'
-alias vim='/usr/local/bin/vim'
-alias git='/usr/local/bin/git'
-alias cat='ccat'
-alias curl='/usr/local/opt/curl/bin/curl'
-alias sqlite3='/usr/local/opt/sqlite3/bin/sqlite3'
-alias sed="gsed"
+# alias mtr=' sudo /usr/local/sbin/mtr'
+# alias vim='/usr/local/bin/vim'
+# alias git='/usr/local/bin/git'
+# alias cat='ccat'
+# alias curl='/usr/local/opt/curl/bin/curl'
+# alias sqlite3='/usr/local/opt/sqlite3/bin/sqlite3'
+# alias sed="gsed"
 
 # 
 alias -s sh="sh "

@@ -1,6 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -43,25 +40,16 @@ test -e "${myzshconfig}/zplug.zsh"      && source "${myzshconfig}/zplug.zsh"
 test -e "${myzshconfig}/kubectl.zsh"    && source "${myzshconfig}/kubectl.zsh"
 # 自動完成配置檔
 test -e "${myzshconfig}/completion.zsh" && source "${myzshconfig}/completion.zsh"
-# iterm2 相關擴充配置檔
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
 echo $fg[blue]
-echo    '    █████╗ ██╗  ██╗ ██████╗ ██╗      ██████╗ ████████╗██╗        ███╗   ███╗ █████╗ ██╗  ██╗'
-echo    '   ██╔══██╗╚██╗██╔╝██╔═══██╗██║     ██╔═══██╗╚══██╔══╝██║        ████╗ ████║██╔══██╗╚██╗██╔╝'
-echo    '   ███████║ ╚███╔╝ ██║   ██║██║     ██║   ██║   ██║   ██║        ██╔████╔██║███████║ ╚███╔╝ '
-echo    '   ██╔══██║ ██╔██╗ ██║   ██║██║     ██║   ██║   ██║   ██║        ██║╚██╔╝██║██╔══██║ ██╔██╗ '
-echo    '   ██║  ██║██╔╝ ██╗╚██████╔╝███████╗╚██████╔╝   ██║   ███████╗██╗██║ ╚═╝ ██║██║  ██║██╔╝ ██╗'
-echo    '   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝'
+echo ' ███╗   ███╗ █████╗ ██╗  ██╗     ██╗██╗  ██╗███████╗ ██████╗	'
+echo '████╗ ████║██╔══██╗╚██╗██╔╝     ██║██║ ██╔╝██╔════╝██╔════╝	'	
+echo '██╔████╔██║███████║ ╚███╔╝      ██║█████╔╝ █████╗  ██║     	'
+echo '██║╚██╔╝██║██╔══██║ ██╔██╗ ██   ██║██╔═██╗ ██╔══╝  ██║      	'
+echo '██║ ╚═╝ ██║██║  ██║██╔╝ ██╗╚█████╔╝██║  ██╗██║     ╚██████╗	'
+echo '╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚════╝ ╚═╝  ╚═╝╚═╝      ╚═════╝	'
 
-# The next line updates PATH for the Google Cloud SDK.
- if [ -f '/Users/maxjkfc/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/maxjkfc/google-cloud-sdk/path.zsh.inc'; fi
- if [ -f '/Users/maxjkfc/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/maxjkfc/google-cloud-sdk/completion.zsh.inc'; fi
+# for linux homebrew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/maxjkfc/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/maxjkfc/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/maxjkfc/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/maxjkfc/google-cloud-sdk/completion.zsh.inc'; fi

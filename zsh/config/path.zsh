@@ -6,7 +6,7 @@ export GOPATH="$HOME/go"
 export COREPATH="/usr/local/opt/coreutils/libexec/gnubin"
 
 # export MANPATH="/usr/local/man:$MANPATH"
-export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+# export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 export ZPLUG_HOME="/usr/local/opt/zplug"
 
 export RUBY_PATH="/usr/local/opt/ruby/bin"
