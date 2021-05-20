@@ -5,7 +5,7 @@ fi
 # for tmux 
 [[ $TMUX = "" ]] && export TERM="xterm-256color"
 
-ZSH_THEME="powerlevel10k"
+ZSH_THEME="dracula"
 
 
 # You may need to manually set your language environment
@@ -28,18 +28,10 @@ test -e "${myzshconfig}/alias.zsh"      && source "${myzshconfig}/alias.zsh"
 test -e "${myzshconfig}/plugin.zsh"     && source "${myzshconfig}/plugin.zsh"
 # 客制語法配置檔
 test -e "${myzshconfig}/shell.zsh"      && source "${myzshconfig}/shell.zsh"
-# fzf 配置檔
-test -e "${myzshconfig}/fzf.zsh"        && source "${myzshconfig}/fzf.zsh"
-# iterm2 相關配置檔
-test -e "${myzshconfig}/iterm2.zsh"     && source "${myzshconfig}/iterm2.zsh"
 # 主題配置檔
  test -e "${myzshconfig}/theme.zsh"      && source "${myzshconfig}/theme.zsh"
 # zplug 配置檔
 test -e "${myzshconfig}/zplug.zsh"      && source "${myzshconfig}/zplug.zsh"
-# kubectl 配置檔
-test -e "${myzshconfig}/kubectl.zsh"    && source "${myzshconfig}/kubectl.zsh"
-# 自動完成配置檔
-test -e "${myzshconfig}/completion.zsh" && source "${myzshconfig}/completion.zsh"
 
 
 echo $fg[blue]

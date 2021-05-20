@@ -1,14 +1,10 @@
 # Example aliases
 alias zshconfig="nvim ~/.zshrc"
 #
-#alias la='ls -laG '
-#alias ll='ls -lahG '
-#alias ls='ls -G '
-#alias lz='ls -ZG '
 alias l='exa -lbF --git'
 alias ls='exa'
-alias la='exa -lbhHigUmuSa --git --color-scale --icons'
-alias lx='exa -lbhHigUmuSa@ --git --color-scale --icons'
+alias la='exa -lbhHigmuSa --git --color-scale --icons'
+alias lx='exa -lbhHigmuSa@ --git --color-scale --icons'
 alias lt='exa --tree --level=5 --color-scale --icons'
 alias ll='exa -lbF --git'
 alias mv='mv -i'
