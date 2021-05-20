@@ -13,10 +13,9 @@ setup_zshconfig(){
 
 	if [ -d $HOME/.config/zsh ]; then 
 		rm -f  $HOME/.config/zsh	
-		mkdir -p $HOME/.config/zsh
 	fi
 
-	ln -s $PWD/zsh/config/* $HOME/.config/zsh
+	ln -s $PWD/zsh/config $HOME/.config/zsh
 }
 
 case $1 in 

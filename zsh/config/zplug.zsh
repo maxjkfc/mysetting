@@ -1,5 +1,5 @@
 #zplug 
-source $ZPLUG_HOME/init.zsh
+source $HOME/.zplug/init.zsh
 setopt prompt_subst # Make sure prompt is able to be generated properly.
 
 zplug "romkatv/powerlevel10k", as:theme, depth:1
