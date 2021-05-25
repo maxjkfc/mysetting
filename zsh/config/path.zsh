@@ -1,5 +1,5 @@
 # Golang setting
-export GOROOT="/usr/local/opt/go/libexec"
+# export GOROOT="/usr/local/opt/go/libexec"
 export GOPATH="$HOME/go"
 
 # PATH

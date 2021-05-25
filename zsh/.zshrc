@@ -2,6 +2,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+
 # for tmux 
 [[ $TMUX = "" ]] && export TERM="xterm-256color"
 
@@ -45,3 +46,5 @@ echo '╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══�
 # for linux homebrew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

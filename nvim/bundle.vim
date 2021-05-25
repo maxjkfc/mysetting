@@ -16,4 +16,6 @@ call plug#begin(s:bundle_dir)
   Plug 'junegunn/fzf.vim' 
   Plug 'junegunn/fzf'
 
+  Plug 'preservim/nerdcommenter'
+
 call plug#end()
