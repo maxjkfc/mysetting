@@ -88,8 +88,7 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
   nnoremap <silent> <space>a     :<C-u>CocCommand fzf-preview.CocDiagnostics <CR>
   nnoremap <silent> <space>aa    :<C-u>CocCommand fzf-preview.CocCurrentDiagnostics <CR>
   " 找尋檔案
-  nnoremap <silent> <space>p     :<C-u>CocCommand fzf-preview.FromResources directory project project_mru git<CR>
-  nnoremap <silent> <space>f     :<C-u>CocCommand fzf-preview.ProjectFiles <CR>
+  nnoremap <silent> <space>p     :<C-u>CocCom and fzf-preview.FromResources directory project project_mru git<CR>
   " 查詢此 Git 狀態
   nnoremap <silent> <space>gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
   " 調用 Git 命令列
@@ -133,6 +132,7 @@ if isdirectory(expand('~/.vim/bundle/coc.nvim'))
     \     'floating-width': 50,
     \   },
     \ }
+
   " coc-explorer 
   nmap <space>e :CocCommand explorer <cr>
   " 啟動浮動視窗的 檔案管理列

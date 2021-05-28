@@ -60,59 +60,16 @@ fbrm() {
   fi
 }
 
-
-# gbr_fzf - checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
+# gbr - checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
 gbr() {
-    local branches branch
-    branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-    branch=$(echo "$branches" |
-             #fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-             fzf -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-    git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf --reverse -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
-
-# gco_fzf - checkout git branch/tag, with a preview showing the commits between the tag/branch and HEAD
-gco() {
-    local tags branches target
-    branches=$(
-        git --no-pager branch --all \
-          --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
-        | sed '/^$/d') || return
-    tags=$(git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
-    target=$(
-        (echo "$branches"; echo "$tags") |
-        fzf --no-hscroll --no-multi --delimiter="\t" -n 2 \
-            --ansi --preview="git log -200 --pretty=format:%s $(echo {+2..} |  sed 's/$/../' )" ) || return
-    git checkout  $(echo "$target" | awk '{print $2}')
-}
-
-alias glGraph='git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
-_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
-
-# gcop_fzf - checkout git commit with previews
-gcop() {
-  local commit
-  commit=$( glGraph |
-    fzf --no-sort --reverse --tiebreak=index --no-multi \
-        --ansi --preview="$_viewGitLogLine" ) &&
-  git checkout $(echo "$commit" | sed "s/ .*//")
-}
-
-
-
-#fshow - git commit browser with previews
-gshow() {
-    glGraph |
-        fzf --no-sort --reverse --tiebreak=index --no-multi \
-            --ansi --preview="$_viewGitLogLine" \
-                --header "enter to view, alt-y to copy hash" \
-                --bind "enter:execute:$_viewGitLogLine   | less -R" \
-                --bind "alt-y:execute:$_gitLogLineToHash | xclip"
-}
-
-# fpush - git push by fzf
+# gpush - git push by fzf
 gpush() {
     local tags branches target
     tags=$(
@@ -128,6 +85,7 @@ gpush() {
     git push origin $(echo "$target" | awk '{print $2}')
 }
 
+# gpull 
 gpull() {
 
     local tags branches target
@@ -144,6 +102,7 @@ gpull() {
     git pull origin $(echo "$target" | awk '{print $2}')
 }
 
+# gmerge
 gmerge() {
 
     local tags branches target
@@ -173,7 +132,7 @@ vg() {
 #fkll - kill process
 fkill() {
   local pid
-  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+  pid=$(ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}')
 
   if [ "x$pid" != "x" ]
   then
@@ -184,39 +143,32 @@ fkill() {
 # fdim - docker rm image use fzf
 fdim() {
   local id
-  id=$(docker image ls |fzf -m | awk {'print$3'})
+  id=$(docker image ls |fzf-tmux -m | awk {'print$3'})
   docker image rm -f $id
 }
 
-# myip - show my ip
-myip() {
-    local_ip=$(ifconfig en0 |grep "inet\ " | awk {'print $2'})
+# public_ip - show my ip
+public_ip() {
     inter_ip=$(curl -s https://api.ipify.org)
-    echo $fg[red]"Local:" $fg[white] $local_ip
     echo $fg[red]"Inter:" $fg[white] $inter_ip
 }
 
-# git
+# alternative using ripgrep-all (rga) combined with fzf-tmux preview
+# This requires ripgrep-all (rga) installed: https://github.com/phiresky/ripgrep-all
+# This implementation below makes use of "open" on macOS, which can be replaced by other commands if needed.
+# allows to search in PDFs, E-Books, Office documents, zip, tar.gz, etc. (see https://github.com/phiresky/ripgrep-all)
+# find-in-file - usage: fif <searchTerm> or fif "string with spaces" or fif "regex"
+fif() {
+    if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+    local file
+    file="$(rga --max-count=1 --ignore-case --files-with-matches --no-messages "$*" | fzf-tmux +m --preview="rga --ignore-case --pretty --context 10 '"$*"' {}")" && echo "opening $file" && open "$file" || return 1;
+}
 
-gct() {
-    local tag=$1    
-    local msg=$2
-
-
-    if [[ -z $tag ]] then
-        echo $fg[red]"The empty tag : $tag"
-    fi
-
-    if [[ -z $msg ]] then
-        echo $fg[red]"The empty msg : $msg"
-    fi
-
-
-    git commit -m "$msg" 
-    git tag -a $tag -m "$msg"
-
-    git push origin master $tag
-
+# gh clone by fzf
+ghc() {
+  local item
+  item="$(gh repo list $1 --limit 1000 | fzf-tmux -m --layout=reverse --ansi --tabstop 20)" || return
+  gh repo clone $( echo "$item" | awk '{print $1}')
 }
 
 
