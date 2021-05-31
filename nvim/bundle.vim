@@ -33,5 +33,7 @@ call plug#begin(s:bundle_dir)
 
 " CSV
   Plug 'chrisbra/csv.vim'
-  
+" multi cursor
+  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
 call plug#end()

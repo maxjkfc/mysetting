@@ -89,8 +89,9 @@
 
     " Yank from the cursor to the end of the line, to be consistent with C and D.
     nnoremap Y y$
+
     "To clear search highlighting rather than toggle
-    nmap <silent> <leader>/ :nohlsearch<CR>
+    nmap <silent> <leader>/c :nohlsearch<CR>
 
      " Find merge conflict markers
     map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
