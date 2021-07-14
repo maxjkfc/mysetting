@@ -20,6 +20,10 @@ export HISTSIZE=1000
 # set the shell 
 set -o emacs
 
+# share history betwen shell
+setopt share_history
+setopt inc_append_history
+
 # 讀取配置檔
 # 路徑相關配置檔
 test -e "${myzshconfig}/path.zsh"       && source "${myzshconfig}/path.zsh"

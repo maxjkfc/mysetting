@@ -17,4 +17,4 @@ if isdirectory(expand('~/.vim/bundle/vista.vim'))
                 \  }
 
   nnoremap <silent><nowait> <space>m :<C-u>Vista!!<cr>
-fi
+end
