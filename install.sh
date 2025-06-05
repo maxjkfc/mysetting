@@ -12,9 +12,9 @@ setup_zshconfig(){
 	fi
 	ln -s $PWD/zsh/.zshrc $HOME/.zshrc
 
-	if [ -d $HOME/.config/zsh ]; then 
-		rm -f  $HOME/.config/zsh	
-	fi
+        if [ -d $HOME/.config/zsh ] || [ -L $HOME/.config/zsh ]; then
+                rm -rf $HOME/.config/zsh
+        fi
 
 	ln -s $PWD/zsh/config $HOME/.config/zsh
 
@@ -24,11 +24,12 @@ setup_nvimconfig() {
 	
 	echo "setting nvim config"
 
-	if [ -d $HOME/.config/nvim ]; then 
-		rm -f  $HOME/.config/nvim	
-	fi
+        if [ -d $HOME/.config/nvim ] || [ -L $HOME/.config/nvim ]; then
+                rm -rf $HOME/.config/nvim
+        fi
 
-	ln -s $PWD/nvim $HOME/.config
+        mkdir -p $HOME/.config
+        ln -s $PWD/nvim $HOME/.config/nvim
 
 }
 
