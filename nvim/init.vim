@@ -26,6 +26,6 @@ if filereadable(expand('~/.config/nvim/vista.vim'))
   source ~/.config/nvim/vista.vim
 endif
 
-if filereadable(expand('~/.config/nvim/vim-visual-.vim'))
+if filereadable(expand('~/.config/nvim/vim-visual-multi.vim'))
   source ~/.config/nvim/vim-visual-multi.vim
 endif
